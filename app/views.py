@@ -1,5 +1,5 @@
-from flask import Flask
-app = Flask(__name__)
+from app import app
+
 
 @app.route('/')
 @app.route('/home')
@@ -10,7 +10,3 @@ def hello():
 def show_user_profile(username):
     # show the user profile for that user
     return 'Welcome %s' % username
-
-
-if __name__ == "__main__":
-    app.run(debug=True)

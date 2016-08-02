@@ -11,5 +11,5 @@ app.config.from_object('config')
 # Initialize SQLAlchemy db
 db = SQLAlchemy(app)
 
-# Import the views handling the routes
-from app import views
+# Import the views handling the routes and the DB models
+from app import views, models

@@ -52,7 +52,7 @@ class ExternalService(db.Model):
 
 class PersonExternalId(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    service = db.Column(db.Integer, db.ForeignKey('externalservice.id'))
+    service = db.Column(db.Integer, db.ForeignKey('external_service.id'))
     identifier = db.Column(db.String(150), unique=True)
 
     person_id = db.Column(db.Integer, db.ForeignKey('person.id'))
@@ -64,7 +64,7 @@ class PersonExternalId(db.Model):
 
 class ShowExternalId(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    service = db.Column(db.Integer, db.ForeignKey('externalservice.id'))
+    service = db.Column(db.Integer, db.ForeignKey('external_service.id'))
     identifier = db.Column(db.String(150))
 
     show_id = db.Column(db.Integer, db.ForeignKey('show.id'))
@@ -92,7 +92,7 @@ class Genre(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), unique=True)
     # Genres have a TVDB id
-    service = db.Column(db.Integer, db.ForeignKey('externalservice.id'))
+    service = db.Column(db.Integer, db.ForeignKey('external_service.id'))
     identifier = db.Column(db.String(150))
 
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
@@ -107,7 +107,7 @@ class Network(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), unique=True)
     # Networks have a TVDB id
-    service = db.Column(db.Integer, db.ForeignKey('externalservice.id'))
+    service = db.Column(db.Integer, db.ForeignKey('external_service.id'))
     identifier = db.Column(db.String(150))
 
     created_at = db.Column(db.DateTime, default=datetime.utcnow)

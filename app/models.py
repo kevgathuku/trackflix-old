@@ -41,7 +41,7 @@ class Show(db.Model):
 class ExternalService(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(20), unique=True)
-    prefix_url = db.Column(db.String(120))
+    base_url = db.Column(db.String(120))
 
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(
@@ -54,6 +54,7 @@ class PersonExternalId(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     service = db.Column(db.Integer, db.ForeignKey('external_service.id'))
     identifier = db.Column(db.String(150), unique=True)
+    url_prefix = db.Column(db.String(100))
 
     person_id = db.Column(db.Integer, db.ForeignKey('person.id'))
 
@@ -66,6 +67,7 @@ class ShowExternalId(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     service = db.Column(db.Integer, db.ForeignKey('external_service.id'))
     identifier = db.Column(db.String(150))
+    url_prefix = db.Column(db.String(100))
 
     show_id = db.Column(db.Integer, db.ForeignKey('show.id'))
 

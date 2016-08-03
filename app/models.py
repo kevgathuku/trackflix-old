@@ -1,5 +1,7 @@
 from datetime import datetime
 
+from sqlalchemy.ext.hybrid import hybrid_property
+
 from app import db
 
 
@@ -16,6 +18,7 @@ show_genres = db.Table(
     db.Column('show_id', db.Integer, db.ForeignKey('show.id'))
 )
 
+
 class Show(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), index=True)
@@ -24,7 +27,7 @@ class Show(db.Model):
     status = db.Column(db.String(50))
     poster_path = db.Column(db.String(100))
     backdrop_path = db.Column(db.String(100))
-    first_air_date = db.Column(db.Date)
+    _first_air_date = db.Column(db.Date)
     origin_country = db.Column(db.String(10))
     popularity = db.Column(db.Float)
 
@@ -33,6 +36,19 @@ class Show(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(
         db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    @hybrid_property
+    def first_air_date(self):
+        """Returns the computed date object"""
+
+        return self._first_air_date
+
+    @first_air_date.setter
+    def _set_first_air_date(self, date_string):
+        """Convert a date string to a Python date object"""
+
+        self._first_air_date = datetime.strptime(
+            date_string, '%Y-%m-%d').date()
 
     def __repr__(self):
         return '<Show: %r>' % self.name
@@ -49,6 +65,7 @@ class ExternalService(db.Model):
 
     def __repr__(self):
         return '<Service: %r>' % self.name
+
 
 class PersonExternalId(db.Model):
     id = db.Column(db.Integer, primary_key=True)

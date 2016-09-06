@@ -54,24 +54,10 @@ class Show(db.Model):
         return '<Show: %r>' % self.name
 
 
-class ExternalService(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(20), unique=True)
-    base_url = db.Column(db.String(120))
-
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at = db.Column(
-        db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-
-    def __repr__(self):
-        return '<Service: %r>' % self.name
-
-
 class PersonExternalId(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    service = db.Column(db.Integer, db.ForeignKey('external_service.id'))
+    service = db.Column(db.String(20))
     identifier = db.Column(db.String(150), unique=True)
-    url_prefix = db.Column(db.String(100))
 
     person_id = db.Column(db.Integer, db.ForeignKey('person.id'))
 
@@ -82,9 +68,8 @@ class PersonExternalId(db.Model):
 
 class ShowExternalId(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    service = db.Column(db.Integer, db.ForeignKey('external_service.id'))
-    identifier = db.Column(db.String(150))
-    url_prefix = db.Column(db.String(100))
+    service = db.Column(db.String(20))
+    identifier = db.Column(db.String(150), unique=True)
 
     show_id = db.Column(db.Integer, db.ForeignKey('show.id'))
 
@@ -111,7 +96,6 @@ class Genre(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), unique=True)
     # Genres have a TVDB id
-    service = db.Column(db.Integer, db.ForeignKey('external_service.id'))
     identifier = db.Column(db.String(150))
 
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
@@ -126,7 +110,6 @@ class Network(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), unique=True)
     # Networks have a TVDB id
-    service = db.Column(db.Integer, db.ForeignKey('external_service.id'))
     identifier = db.Column(db.String(150))
 
     created_at = db.Column(db.DateTime, default=datetime.utcnow)

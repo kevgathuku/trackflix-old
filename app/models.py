@@ -54,6 +54,20 @@ class Show(db.Model):
         return '<Show: %r>' % self.name
 
 
+class Person(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100))
+    biography = db.Column(db.Text)
+    birthday = db.Column(db.Date)
+
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(
+        db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    def __repr__(self):
+        return '<Person: %r>' % self.name
+
+
 class PersonExternalId(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     service = db.Column(db.String(20))
@@ -78,20 +92,6 @@ class ShowExternalId(db.Model):
         db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
 
-class Person(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100))
-    biography = db.Column(db.Text)
-    birthday = db.Column(db.Date)
-
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at = db.Column(
-        db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-
-    def __repr__(self):
-        return '<Person: %r>' % self.name
-
-
 class Genre(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), unique=True)
@@ -104,20 +104,6 @@ class Genre(db.Model):
 
     def __repr__(self):
         return '<Genre: %r>' % self.name
-
-
-class Network(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), unique=True)
-    # Networks have a TVDB id
-    identifier = db.Column(db.String(150))
-
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at = db.Column(
-        db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-
-    def __repr__(self):
-        return '<Network: %r>' % self.name
 
 
 class Season(db.Model):

@@ -1,20 +1,16 @@
 from datetime import datetime
-
-from sqlalchemy.ext.hybrid import hybrid_property
+from sqlalchemy.dialects.postgresql import JSONB
 
 from app import db
 
 
 class Show(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    tmdb_id = db.Column(db.Integer, index=True)
     name = db.Column(db.String(100), index=True)
     overview = db.Column(db.Text)
-    homepage = db.Column(db.String(250))
-    status = db.Column(db.String(50))
-    poster_path = db.Column(db.String(100))
-    backdrop_path = db.Column(db.String(100))
-    _first_air_date = db.Column(db.Date)
-    origin_country = db.Column(db.String(10))
+    # Other fields accessed from API response
+    tmdb_data = db.Column(JSONB)
 
     seasons = db.relationship('Season', backref='show', lazy='dynamic')
 
@@ -22,33 +18,20 @@ class Show(db.Model):
     updated_at = db.Column(
         db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
-    @hybrid_property
-    def first_air_date(self):
-        """Returns the computed date object"""
-
-        return self._first_air_date
-
-    @first_air_date.setter
-    def _set_first_air_date(self, date_string):
-        """Convert a date string to a Python date object"""
-
-        self._first_air_date = datetime.strptime(
-            date_string, '%Y-%m-%d').date()
-
     def __repr__(self):
         return '<Show: %r>' % self.name
 
 
 class Season(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    tmdb_id = db.Column(db.Integer, index=True)
     name = db.Column(db.String(250), index=True)
     overview = db.Column(db.Text)
-    number = db.Column(db.SmallInteger)
-    poster_path = db.Column(db.String(100))
-    air_date = db.Column(db.Date)
-    episode_count = db.Column(db.SmallInteger)
-    show_id = db.Column(db.Integer, db.ForeignKey('show.id'))
+    season_number = db.Column(db.SmallInteger)
 
+    tmdb_data = db.Column(JSONB)
+
+    show_id = db.Column(db.Integer, db.ForeignKey('show.id'))
     episodes = db.relationship('Episode', backref='season', lazy='dynamic')
 
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
@@ -56,16 +39,18 @@ class Season(db.Model):
         db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     def __repr__(self):
-        return '<Season: %r>' % self.number
+        return '<%r>' % self.name
 
 
 class Episode(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    tmdb_id = db.Column(db.Integer, index=True)
     name = db.Column(db.String(250), index=True)
     overview = db.Column(db.Text)
     episode_number = db.Column(db.SmallInteger)
-    still_path = db.Column(db.String(100))
-    air_date = db.Column(db.Date)
+
+    tmdb_data = db.Column(JSONB)
+
     season_id = db.Column(db.Integer, db.ForeignKey('season.id'))
 
     created_at = db.Column(db.DateTime, default=datetime.utcnow)

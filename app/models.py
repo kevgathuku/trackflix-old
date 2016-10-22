@@ -6,7 +6,7 @@ from app import db
 
 class Show(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    tmdb_id = db.Column(db.Integer, index=True)
+    tmdb_id = db.Column(db.Integer, index=True, unique=True)
     name = db.Column(db.String(100), index=True)
     overview = db.Column(db.Text)
     # Other fields accessed from API response
@@ -24,7 +24,7 @@ class Show(db.Model):
 
 class Season(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    tmdb_id = db.Column(db.Integer, index=True)
+    tmdb_id = db.Column(db.Integer, index=True, unique=True)
     name = db.Column(db.String(250), index=True)
     overview = db.Column(db.Text)
     season_number = db.Column(db.SmallInteger)
@@ -44,7 +44,7 @@ class Season(db.Model):
 
 class Episode(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    tmdb_id = db.Column(db.Integer, index=True)
+    tmdb_id = db.Column(db.Integer, index=True, unique=True)
     name = db.Column(db.String(250), index=True)
     overview = db.Column(db.Text)
     episode_number = db.Column(db.SmallInteger)

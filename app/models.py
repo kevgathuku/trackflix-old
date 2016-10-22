@@ -41,11 +41,15 @@ class Show(db.Model):
 
 class Season(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(250), index=True)
+    overview = db.Column(db.Text)
     number = db.Column(db.SmallInteger)
     poster_path = db.Column(db.String(100))
     air_date = db.Column(db.Date)
     episode_count = db.Column(db.SmallInteger)
     show_id = db.Column(db.Integer, db.ForeignKey('show.id'))
+
+    episodes = db.relationship('Episode', backref='season', lazy='dynamic')
 
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(
@@ -53,3 +57,20 @@ class Season(db.Model):
 
     def __repr__(self):
         return '<Season: %r>' % self.number
+
+
+class Episode(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(250), index=True)
+    overview = db.Column(db.Text)
+    episode_number = db.Column(db.SmallInteger)
+    still_path = db.Column(db.String(100))
+    air_date = db.Column(db.Date)
+    season_id = db.Column(db.Integer, db.ForeignKey('season.id'))
+
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(
+        db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    def __repr__(self):
+        return '<Episode: %r>' % self.name

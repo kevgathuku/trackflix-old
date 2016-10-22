@@ -8,10 +8,10 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 dotenv_path = os.path.join(basedir, '.env')
 load_dotenv(dotenv_path)
 
-if os.environ.get('DATABASE_URL'):
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
-else:
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db')
+SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL', None)
+
+if not SQLALCHEMY_DATABASE_URI:
+    raise Exception("DATABASE_URL missing")
 
 SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'migrations')
 

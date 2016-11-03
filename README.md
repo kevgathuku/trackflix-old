@@ -24,7 +24,7 @@ watching your series, you can easily find out where you left off.
 
 You need to install the following to get started:
 
-1. [Python 2](https://python.org)
+1. [Python 3](https://python.org)
 2. [PostgreSQL](http://www.postgresql.org/download/macosx/)
 3. [virtualenvwrapper](http://virtualenvwrapper.readthedocs.io/en/latest/) (Optional but highly recommended)
 

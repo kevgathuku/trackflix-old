@@ -1,6 +1,5 @@
 # TrackFlix
 
-A TV Series Tracking Application.  
 _The smart way to keep track of the TV series you watch_
 
 ### Rationale
@@ -37,10 +36,10 @@ git clone https://github.com/kevgathuku/trackflix
 cd trackflix
 ```
 
-Create a virtual environment to avoid polluting your global pip dependencies
+Create a virtual environment with (Python 3) to avoid polluting your global pip dependencies
 
 ```sh
-mkvirtualenv trackflix
+mkvirtualenv -p $(which python3) trackflix
 ```
 
  - Install the app dependencies
@@ -54,12 +53,15 @@ pip install -r requirements.txt
  ```sh
  cp .env.example .env
  ```
- Make sure to enter a valid [`DATABASE_URL`](http://flask-sqlalchemy.pocoo.org/2.1/config/#connection-uri-format)
+
+ You will need a valid API Key to fetch data from The Movie DB's API.
+ Get your API key [here](https://www.themoviedb.org/account) and set it as the
+ `TMDB_API_KEY` in your .env file
 
 Run the database migrations to create the required tables in the DB
 
 ```sh
-$ python manage.py db upgrade
+$ python manage.py migrate
 ```
 
 To run the application:
@@ -68,15 +70,9 @@ To run the application:
 $ python manage.py runserver
 ```
 
-### Required Environment Variables
+Now visit `http://localhost:8000` to view the application on your preferred web browser.
 
-- `DATABASE_URL` - Database Configuration
-- `TMDB_API_KEY` - Required for communicating with [The Movie DB](https://www.themoviedb.org/)'s API
-
-Get your API key [here](https://www.themoviedb.org/account).
-
-Now visit `http://localhost:5000` to view the application on your preferred web browser.
 
 ## License
-Copyright (c) 2016 __Kevin Ndung'u__  
+Copyright (c) 2016 __Kevin Ndung'u__
 Licensed under the [MIT license](http://mit-license.org/)
